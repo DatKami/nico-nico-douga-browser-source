@@ -259,7 +259,10 @@
                             node.appendChild(document.createTextNode(msg.substring(messageIndex)))
                             
                             node.classList.add('thing')
-                            node.style.top = `calc(${Math.random() * 95}vh)`   
+
+                            const top = Math.random()
+
+                            node.style.top = `calc(${top * 100}vh - ${top * 32}px)`   
                             node.style.animationDuration = `${ttl}s`
                             animationArea.appendChild(node)
                             setTimeout(function() {
