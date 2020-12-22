@@ -134,6 +134,11 @@
                 white-space: nowrap;
             }
 
+            #animation-area .thing img {
+                position: relative;
+                top: 2px
+            }
+
             #animation-area .error {
                 position: absolute;
                 left: 20%;
@@ -153,8 +158,8 @@
             }
 
             @keyframes rightToLeft {
-                from { left: 105%; }
-                to { left: -200%; }
+                from { transform: translateX(105vw); }
+                to { transform: translateX(-200vw); }
             }
         </style>
     </head>
@@ -220,15 +225,42 @@
                         // at 0% jitter, ttl = 100% duration
                         // at 50% jitter, ttl could be between 75% and 125%
                         // at 100% jitter, ttl coult be between 50% and 150%
+                        console.log(msgObject)
+                        console.log(msg)
                         const ttl = (duration * (1 - .5 * jitter / 100)) + 
                                     (Math.random() * duration * jitter / 100)
                         if (msg && msg.length < 100) {
+                            let emotePairs = []
+                            if (msgObject.emotes) {
+                                const emotes = msgObject.emotes.split(',')
+                                emotePairs = emotes.map(function(emote) { 
+                                    const emotePair = emote.split(':') 
+                                    const indexPair = emotePair[1].split('-')
+                                    return [emotePair[0], indexPair]
+                                })
+                                console.log(emotePairs)
+                            }
+
                             const node = document.createElement('div')
-                            const textNode = document.createTextNode(msg)
+
+                            let messageIndex = 0
+                            for (let i = 0; i < emotePairs.length; ++i) {
+                                const emotePair = emotePairs[i]
+                                const emoteIndex = emotePair[0]
+                                const substring = msg.substring(messageIndex, emotePair[1][0])
+                                messageIndex = emotePair[1][1] + 1
+                                node.appendChild(document.createTextNode(substring))
+                                const imageNode = document.createElement('img')
+                                imageNode.src = `https://static-cdn.jtvnw.net/emoticons/v1/${emoteIndex}/1.0`
+                                node.appendChild(imageNode)
+                            }
+                            
+                            // last text
+                            node.appendChild(document.createTextNode(msg.substring(messageIndex)))
+                            
                             node.classList.add('thing')
-                            node.style.top = `calc(${Math.random() * 95 + 5}vh)`   
+                            node.style.top = `calc(${Math.random() * 95}vh)`   
                             node.style.animationDuration = `${ttl}s`
-                            node.appendChild(textNode)
                             animationArea.appendChild(node)
                             setTimeout(function() {
                                 node.remove();
