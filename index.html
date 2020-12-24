@@ -125,7 +125,7 @@
                 position: relative;
                 overflow: hidden;
             }
-            #animation-area .thing {
+            #animation-area .text {
                 position: absolute;
                 animation-name: rightToLeft;
                 animation-iteration-count: 1;
@@ -134,7 +134,7 @@
                 white-space: nowrap;
             }
 
-            #animation-area .thing img {
+            #animation-area .text img {
                 position: relative;
                 top: 2px
             }
@@ -145,7 +145,7 @@
                 top: 30%;
             }
 
-            #animation-area .thing, #animation-area .error {
+            .text, .error {
                 font-family: "Open Sans";
                 font-size: 32px;
                 font-style: normal;
@@ -294,7 +294,7 @@
                             // last text
                             node.appendChild(makeTextNode(msg.substring(messageIndex)))
                             
-                            node.classList.add('thing')
+                            node.classList.add('text')
 
                             const top = Math.random()
 
