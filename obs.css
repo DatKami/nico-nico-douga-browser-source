@@ -1,0 +1,16 @@
+/*
+1. Find a font on https://fonts.google.com/
+
+2. In below, replace [FontName] with name of the font, replacing spaces with +
+eg. @import url('https://fonts.googleapis.com/css2?family=[FontName]&display=swap');
+More examples:
+@import url('https://fonts.googleapis.com/css2?family=Knewave&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=News+Cycle&display=swap');
+
+3. In line below .text, replace font-family: "Open Sans" with font-family: "[Name of your new font]"
+*/
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&display=swap');
+
+.text {
+	font-family: "Open Sans";
+}
