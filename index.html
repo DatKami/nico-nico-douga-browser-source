@@ -171,6 +171,7 @@
             const animationArea = document.getElementById("animation-area")
             const errorDisplay = document.getElementById("error")
             const search = window.location.search
+            const plus = /\+/g
 
             const emojiUnicodes = [
                 '\ud83c[\udf00-\udfff]', // U+1F300 to U+1F3FF
@@ -178,6 +179,16 @@
                 '\ud83d[\ude80-\udeff]'  // U+1F680 to U+1F6FF
             ]
 
+            function addCss(fileName) {
+                var head = document.head;
+                var link = document.createElement("link");
+
+                link.type = "text/css";
+                link.rel = "stylesheet";
+                link.href = fileName;
+
+                head.appendChild(link);
+            }
 
             const valuePairReducer = function(acc, pair) {
                 const stuff = pair.split('=')
@@ -206,7 +217,12 @@
                 const channel = `#${queryObj.channel}`
                 const speed = parseInt(queryObj.speed) || 100
                 const noemoji = queryObj.noemoji === "true" || queryObj.noEmoji === "true"
+                const googlefontfamily = queryObj.googlefontfamily
                 const duration = 30 / (speed / 100)
+
+                if (googlefontfamily) {
+                    addCss(`https://fonts.googleapis.com/css2?family=${googlefontfamily}&display=swap`);
+                }
 
                 const socket = new WebSocket("wss://irc-ws.chat.twitch.tv/")
                 const pingTTL = 240
@@ -295,6 +311,10 @@
                             node.appendChild(makeTextNode(msg.substring(messageIndex)))
                             
                             node.classList.add('text')
+
+                            if (googlefontfamily) {
+                                node.style.fontFamily = googlefontfamily.replace(plus, '')
+                            }
 
                             const top = Math.random()
 
